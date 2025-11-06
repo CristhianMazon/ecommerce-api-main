@@ -1,0 +1,47 @@
+name: Horusec SAST Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  security_scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # 1. Instalação Corrigida do Horusec-CLI
+    - name: Install Horusec CLI
+      run: |
+        echo "Baixando o Horusec CLI e tornando-o executável..."
+        curl -L https://github.com/ZupIT/horusec/releases/latest/download/horusec_linux_amd64 -o horusec
+        chmod +x horusec
+        ./horusec version
+
+    # 2. Execução para o Log (TEXTO) - Confirma a análise e o parâmetro solicitado
+    - name: Run Horusec Scan and Output to Text (Solicitado)
+      run: |
+        echo "Executando Horusec com --disable-docker=true -o text para log..."
+        # Esta execução é rápida, apenas para mostrar o output no log.
+        ./horusec start -p . --disable-docker="true" -o text
+
+    # 3. Execução para geração do Relatório Técnico (JSON)
+    # O JSON é o formato mais detalhado e serve como base para ambos os relatórios.
+    - name: Generate JSON (Technical) Report
+      run: |
+        echo "Gerando horusec_relatorio_tecnico.json..."
+        ./horusec start -p . --disable-docker="true" --output-format json --json-output-file horusec_relatorio_tecnico.json
+        
+    # 4. Upload dos Artefatos
+    # Iremos entregar apenas o JSON (Relatório Técnico) como artefato,
+    # pois ele contém todos os dados que você precisa para preencher os PDFs.
+    - name: Upload Report Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: horusec-reports-${{ github.sha }}
+        path: horusec_relatorio_tecnico.json
