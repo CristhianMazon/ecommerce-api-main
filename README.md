@@ -101,6 +101,20 @@ Este projeto demonstra, na prática, o uso do padrão **MVC** no backend e uma a
 
 ---
 
+---
+## 📄 8. Lista de Manutenções Realizadas (Requisito de Recuperação)
+
+O projeto demonstrou os seguintes tipos de manutenção através do fluxo de branches Git:
+
+1.  **Manutenção Evolutiva (`feature/*`)**:
+    - **Exemplo:** Implementação da funcionalidade completa do **Carrinho de Compras** e **Checkout**.
+2.  **Manutenção Corretiva (`fix/*`)**:
+    - **Exemplo:** Correção da lógica de estoque em `src/controllers/orderController.js` para garantir a **reposição correta** de produtos ao cancelar um pedido.
+3.  **Manutenção Perfectiva (`refactor/*`)**:
+    - **Exemplo:** Refatoração no `CartContext.jsx` para incluir **validação de estoque** no frontend, melhorando a robustez e desempenho do carrinho.
+4.  **Manutenção Adaptativa (`refactor/*`)**:
+    - **Exemplo:** Ajuste na configuração CORS em `src/app.js` para se **adaptar** ao ambiente de desenvolvimento do React (porta 5173), mantendo a segurança.
+
 ## 🚀 Como Executar o Projeto
 
 ### ✅ Pré-requisitos
